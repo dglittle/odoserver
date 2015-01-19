@@ -1,4 +1,4 @@
 {
-    hi : 'there',
-    what : 'i am a database!'
+    "hi" : "there",
+    "what" : "i am a database!"
 }

@@ -30,6 +30,12 @@ corsSend = function (req, res, body, mime) {
 
 _.run(function () {
 
+    var db = _.unJson(_.wget('https://raw.githubusercontent.com/dglittle/odoserver/gh-pages/db.js'))
+
+    console.log('db', db)
+
+    return
+
     if (!process.env.PORT) process.env.PORT = 5000
     if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production'
     if (!process.env.MONGOHQ_URL) process.env.MONGOHQ_URL = 'mongodb://localhost:27017/test'
