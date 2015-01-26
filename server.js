@@ -87,10 +87,6 @@ _.run(function () {
     }
 
     endPoint('/rpc', function (x, req) {
-
-        // work here
-        console.log('got here rpc')
-
         if ('pass' in x) {
             if (x.pass != process.env.PASSWORD) throw 'bad password'
             return eval('{' + x.code + '}')
