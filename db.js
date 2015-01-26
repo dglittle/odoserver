@@ -1,1 +1,1 @@
-{"hi":"there","what":"i am a database!","saveTime":1421644088580,"test":5,"test2":33}
+{"hi":"there", "sites" : {"http://localhost:5000/" : true}}
