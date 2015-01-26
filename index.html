@@ -1,50 +1,19 @@
 <html>
 <head>
 <meta charset='utf-8'>
-<title>untitled2</title>
-<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>untitled</title>
 <style>
-
-body {
-    margin: 0px;
-}
-table {
-    border-collapse: collapse;
-}
-th, td {
-    padding: 0px;
-}
-
+body { margin: 0px; }
+table { border-collapse: collapse; }
+th, td { padding: 0px; }
 </style>
 </head>
 <body>
+
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://dglittle.github.io/gl519/index.js"></script>
 <script src="http://dglittle.github.io/gl519/tab.js"></script>
-<script src="utils.js"></script>
 <script>
-
-function test1() {
-	$.post('/rpc', _.json({
-		func : '' + /* server begin */ function () {
-			return 'hello1: ' + _.json(_.p(db.collection('odoserver').findOne({ _id : 'settings' }, _.p())))
-		} /* server end */,
-		args : []
-	}), function (x) {
-		console.log('x:', x)
-	})
-}
-
-function test2() {
-	$.post('/rpc', _.json({
-		func : '' + /* server begin */ function () {
-			return 'hello2: ' + _.json(_.p(db.collection('odoserver').findOne({ _id : 'settings' }, _.p())))
-		} /* server end */,
-		args : []
-	}), function (x) {
-		console.log('x:', x)
-	})
-}
 
 $(function () {
 	$(document).ajaxError(function () {
@@ -52,68 +21,28 @@ $(function () {
 	})
 
 	var pass = $('<input type="password" placeholder="password" />')
-	var run = $('<button/>').text('run')
-	var input = $('<textarea style="width:100%;height:100%" placeholder="input">')
-	var output = $('<textarea style="width:100%;height:100%" placeholder="output">')
-
-	$('body').append(_.splitVert(2, 1, $('<div/>').myAppend(pass, run), _.splitHorz(50, 50, input, output)))
-
-	function blah() {
-		return _.p(db.collection('odoserver').findAndModify({
-			query : { _id : 'settings' },
-			update : { $set : {
-				pass : 'CHANGE ME',
-				url : 'http://localhost:5000/'
-			} },
-			new : true
-		}, _.p()))
-	}
-	input.val('\t' + blah)
-
-	run.click(function () {
+	var run = $('<button/>').text('run').click(function () {
 		$.post('/rpc', _.json({
 			pass : pass.val(),
-			func : input.val(),
-			args : []
+			code : input.val()
 		}), function (x) {
 			output.val(_.json(x))
 		})
 	})
+	var input = $('<textarea style="width:100%;height:100%" placeholder="input">')
+	var output = $('<textarea style="width:100%;height:100%" placeholder="output">')
 
-	test2()
+	$('body').append(_.splitVert(2, 1, $('<div/>').append(pass).append(run), _.splitHorz(50, 50, input, output)))
 
-	// $('body').append($('<button/>').text('hello madam!').click(function () {
-	// 	alert('bwahahaaha!!')
-	// }))
+	$('body').keydown(function (e) {
+		if (e.metaKey && e.keyCode == 13) {
+			e.preventDefault()
+			run.click()
+		}
+	})
 
-	// var pass = $('<input type="password" style="width:100px">')
-	// var getButton = $('<button/>').text('get').click(function () {
-	// 	getButton.empty().append(createThrobber())
-	// 	$.post('/settings', _.json([pass.val()]), function (x) {
-	// 		getButton.empty().text('get')
-	// 		mainText.val(_.json(x))
-	// 	})
-	// })
-	// var setButton = $('<button/>').text('save changes').click(function () {
-	// 	saveButton.empty().append(createThrobber())
-	// 	$.post('/settings', _.json([pass.val(), _.unJson(mainText.val())]), function (x) {
-	// 		saveButton.empty().text('save changes')
-	// 		mainText.val(_.json(x))
-	// 	})
-	// })
-
-
-	// $('body').append($('<span/>').text('password: ')).append(pass).append($('<button/>').text('get').click(function () {
-
-	// 	$.post('/settings', _.json([pass.val()]), function (x) {
-	// 		$('body')
-	// 		console.log('x = ' + (typeof(x)) + ":" + x)
-
-	// 	})
-	// }))
 })
 
 </script>
-
 </body>
 </html>
